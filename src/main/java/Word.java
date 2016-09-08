@@ -7,11 +7,8 @@ import java.util.Random;
 public class Word{
   private String[] word;
   private String[] encodedWord;
-  public List<String> printWord(){
-    List<String> characterList = new ArrayList<String>(Arrays.asList(word));
-    List<String> encodedCharacterList = new ArrayList<String>(Arrays.asList(encodedWord));
-    // System.out.println(characterList);
-    return encodedCharacterList;
+  public String getFormattedWord(){
+    return String.join(" ", encodedWord);
   }
   public void setWord(String[] wordInput){
     word = wordInput;

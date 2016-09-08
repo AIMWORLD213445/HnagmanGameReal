@@ -3,13 +3,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 public class Game {
   private String[] mAnswers = {"BOAT", "HOUSE", "BRIAN", "YUSUF"};
   private Integer mAnswerIndex = -1;
   private List<String> mPastGuesses = new ArrayList<String>();
   private Word gameWord = new Word();
+  private boolean mLastGuessNotRepeat = true;
   private boolean gameInProgress = true;
+  private boolean win = false;
+  private int listLength = 0;
   public void update(){
     String[] word = gameWord.getWord();
     String[] encodedWord = gameWord.getEncodedWord();
@@ -17,22 +21,48 @@ public class Game {
     String encodedWordString = String.join("", encodedWord);
     if (wordString.equals(encodedWordString)) {
       gameInProgress = false;
+      win = true;
     }
-
+    listLength = mPastGuesses.size();
+    if (listLength > 8){
+      gameInProgress = false;
+    }
+  }
+  public boolean getWin(){
+    return win;
+  }
+  public boolean getLastGuess(){
+    return mLastGuessNotRepeat;
+  }
+  public void setLastGuessTrue(){
+    mLastGuessNotRepeat = true;
+  }
+  private boolean repeatGuess(String guess){
+    if (mPastGuesses.contains(guess) || guess.length() != 1 || !(Pattern.matches("[A-Z]+",guess) ) ){
+      mLastGuessNotRepeat = true;
+    }else{
+      mLastGuessNotRepeat = false;
+    }
+    return mLastGuessNotRepeat;
   }
   public Game(){
     generateAnswerIndex();
     generateEncodedWord();
     generateWord();
   }
+  public Integer getAnswerIndex(){
+    return mAnswerIndex;
+  }
   private void generateAnswerIndex(){
     Random randomNumber = new Random();
     mAnswerIndex = randomNumber.nextInt(4);
   }
-  public List<String> addGuess(String guess){
+  public void addGuess(String guess){
+    if(repeatGuess(guess)){
+      return;
+    }
     mPastGuesses.add(guess);
     evaluateGuess(guess);
-    return mPastGuesses;
   }
   private void evaluateGuess(String guess){
     String[] word = gameWord.getWord();
