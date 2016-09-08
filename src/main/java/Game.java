@@ -8,27 +8,34 @@ public class Game {
   private String[] mAnswers = {"BOAT", "HOUSE", "BRIAN", "YUSUF"};
   private Integer mAnswerIndex = -1;
   private List<Character> mPastGuesses = new ArrayList<Character>();
-  public Word gameWord = new Word();
-  public Integer getAnswerIndex(){
+  private Word gameWord = new Word();
+  public Game(){
+    generateAnswerIndex();
+    generateEncodedWord();
+    generateWord();
+  }
+  private void generateAnswerIndex(){
     Random randomNumber = new Random();
     mAnswerIndex = randomNumber.nextInt(4);
-    return mAnswerIndex;
   }
   public List<Character> addGuess(Character guess){
     mPastGuesses.add(guess);
     return mPastGuesses;
   }
-  public void setEncodedWord(){
+  public Word getGameWord(){
+    return gameWord;
+  }
+  private void generateEncodedWord(){
     String word = mAnswers[mAnswerIndex];
     String[] arrayOfChar = word.split("");
     for (int i = 0;i < arrayOfChar.length ;i++ ) {
       arrayOfChar[i] = "_";
     }
-     gameWord.encodedWord = arrayOfChar;
+     gameWord.setEncodedWord(arrayOfChar);
   }
-  public void setWord(){
+  private void generateWord(){
     String word = mAnswers[mAnswerIndex];
     String[] arrayOfChar = word.split("");
-    gameWord.word = arrayOfChar;
+    gameWord.setWord(arrayOfChar);
   }
 }
