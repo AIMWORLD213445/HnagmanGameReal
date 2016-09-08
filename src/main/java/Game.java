@@ -31,6 +31,9 @@ public class Game {
   public boolean getWin(){
     return win;
   }
+  public List<String> getPastGuesses(){
+    return mPastGuesses;
+  }
   public boolean getLastGuess(){
     return mLastGuessNotRepeat;
   }

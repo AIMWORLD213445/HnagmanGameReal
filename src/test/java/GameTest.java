@@ -20,10 +20,11 @@ public class GameTest {
   @Test
   public void addGuess_confirmAddtoList_A() {
     Game testGame = new Game();
-    List<Character> expectedList = new ArrayList<Character>();
-    Character guess = 'A';
-    expectedList = testGame.addGuess(guess);
-    Character expectedGuessAdded = ' ';
+    List<String> expectedList = new ArrayList<String>();
+    String guess = "A";
+    testGame.addGuess(guess);
+    expectedList = testGame.getPastGuesses();
+    String expectedGuessAdded = " ";
     if(!expectedList.isEmpty()){
       expectedGuessAdded = expectedList.get(0);
     }
