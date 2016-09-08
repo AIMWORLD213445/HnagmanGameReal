@@ -13,7 +13,7 @@ public class Game {
   private boolean mLastGuessNotRepeat = true;
   private boolean gameInProgress = true;
   private boolean win = false;
-  private int listLength = 0;
+  private int incorrectAnswerCount = 0;
   public void update(){
     String[] word = gameWord.getWord();
     String[] encodedWord = gameWord.getEncodedWord();
@@ -23,8 +23,7 @@ public class Game {
       gameInProgress = false;
       win = true;
     }
-    listLength = mPastGuesses.size();
-    if (listLength > 8){
+    if (incorrectAnswerCount > 8){
       gameInProgress = false;
     }
   }
@@ -70,10 +69,15 @@ public class Game {
   private void evaluateGuess(String guess){
     String[] word = gameWord.getWord();
     String[] encodedWord = gameWord.getEncodedWord();
+    boolean incorrectGuess = true;
     for (int i = 0;i < word.length;i++ ) {
       if (word[i].equals(guess)) {
         encodedWord[i] = guess;
+        incorrectGuess = false;
       }
+    }
+    if (incorrectGuess) {
+      incorrectAnswerCount++;
     }
     gameWord.setWord(word);
     gameWord.setEncodedWord(encodedWord);
